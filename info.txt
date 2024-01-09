@@ -1,0 +1,33 @@
+##############m1.py############### 
+
+normal mesh 64x64, no external forcing
+u = CG, P1
+theta = CG, P1
+Dt = 0.02
+Ro_1 = Ro_2 = 1
+Re = 100
+Pe = 100
+temp. of ocean= two bells
+Ran for hundred time steps and saved every fifth in m1.pvd
+
+Observation: the code ran smoothly and therefore thought of either running for longer times or adding external forcing
+
+##############m2.py###############
+
+normal mesh 64x64, with external forcing
+Dt = 0.02
+Ran for 1000 time steps and saved every 25th in m2.pvd
+results also stores as pvsm file in ./results/m2.pvsm
+FE spaces same as m1.py
+Ro_1 = 1
+Ro_2 = 10
+Re = 1000
+Pe = 100
+temp. of ocean = one bell
+f_ext = [-y(y-1)sin(8*pi*x), -sin(8*pi*x)*sin(8*pi*y)]
+
+Observation: nothing much happens after inital few time steps. flow looks wierd. video save in ./videos/m2.avi
+
+##############m3.py###############
+
+
