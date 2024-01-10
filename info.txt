@@ -34,8 +34,8 @@ Observation: nothing much happens after inital few time steps. flow looks wierd.
 
 normal mesh 64x64, with external forcing
 Dt = 0.02
-Ran for 1000 time steps and saved every 25th in m2.pvd
-results also stored as pvsm file in ./results/m2.pvsm
+Ran for 1000 time steps and saved every 25th in m3.pvd
+results also stored as pvsm file in ./results/m3.pvsm
 FE spaces same as m2.py
 Ro_1 = 10**2
 Ro_2 = 10**3
@@ -46,5 +46,22 @@ atm. temp. = constant field
 no external forcing
 inital vel corresponding to Wei's initial vorticity 
 
-Observation: I see some ripples in atm. velocity field. Doesn't seem natural. results stored as m2.pvsm file and a video ./videos/m3.avi
+Observation: I see some ripples in atm. velocity field. Doesn't seem natural. results stored as m3.pvsm file and a video ./videos/m3.avi
 
+##############m4.py###############
+
+normal mesh 64x64, with external forcing
+Dt = 0.02
+Ran for 2000 time steps and saved every 25th in m2.pvd
+results also stored as pvsm file in ./results/m2.pvsm
+FE spaces same as m2.py
+Ro_1 = 10**3
+Ro_2 = 10**3
+Re = 10**4
+Pe = 10**2
+temp. of ocean = one bell
+atm. temp. = constant field
+f_ext = velocity field correponding of Wei's initial condition
+initial vel = 0
+
+Observation: The flow looks promising. Maybe can reduce time step or reduce grid size. results stored as m4.pvsm file and a video ./videos/m4.avi
