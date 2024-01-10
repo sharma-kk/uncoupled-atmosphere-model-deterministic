@@ -8,6 +8,7 @@ Ro_1 = Ro_2 = 1
 Re = 100
 Pe = 100
 temp. of ocean= two bells
+atm. temp. = constant field
 Ran for hundred time steps and saved every fifth in m1.pvd
 
 Observation: the code ran smoothly and therefore thought of either running for longer times or adding external forcing
@@ -17,17 +18,33 @@ Observation: the code ran smoothly and therefore thought of either running for l
 normal mesh 64x64, with external forcing
 Dt = 0.02
 Ran for 1000 time steps and saved every 25th in m2.pvd
-results also stores as pvsm file in ./results/m2.pvsm
+results also stored as pvsm file in ./results/m2.pvsm
 FE spaces same as m1.py
 Ro_1 = 1
 Ro_2 = 10
 Re = 1000
 Pe = 100
 temp. of ocean = one bell
+atm. temp. = constant field
 f_ext = [-y(y-1)sin(8*pi*x), -sin(8*pi*x)*sin(8*pi*y)]
 
-Observation: nothing much happens after inital few time steps. flow looks wierd. video save in ./videos/m2.avi
+Observation: nothing much happens after inital few time steps. flow looks wierd. video saved in ./videos/m2.avi
 
 ##############m3.py###############
 
+normal mesh 64x64, with external forcing
+Dt = 0.02
+Ran for 1000 time steps and saved every 25th in m2.pvd
+results also stored as pvsm file in ./results/m2.pvsm
+FE spaces same as m2.py
+Ro_1 = 10**2
+Ro_2 = 10**3
+Re = 10**5
+Pe = 10**2
+temp. of ocean = two bells
+atm. temp. = constant field
+no external forcing
+inital vel corresponding to Wei's initial vorticity 
+
+Observation: I see some ripples in atm. velocity field. Doesn't seem natural. results stored as m2.pvsm file and a video ./videos/m3.avi
 
