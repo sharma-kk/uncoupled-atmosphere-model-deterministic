@@ -26,9 +26,9 @@ half = Constant(0.5)
 
 x,y = SpatialCoordinate(mesh)
 
-Ro_1 = Constant(10**4)
+Ro_1 = Constant(10**5)
 Ro_2 = Constant(10**3) # Rossby number
-Re = Constant(10**4) # Reynolds number
+Re = Constant(10**5) # Reynolds number
 Pe = Constant(10**2)
 
 
@@ -68,7 +68,7 @@ F = ( inner(u-u_,v)
 bound_cond = [DirichletBC(Z.sub(0).sub(0), Constant(0.0), (1,2)),
               DirichletBC(Z.sub(0).sub(1), Constant(0.0), (3,4))]
 
-outfile = File("./results/m4.pvd")
+outfile = File("./results/m5.pvd")
 T_.rename("atm_temp")
 u_.rename("atm_vel")
 To.rename("ocean_temp")
