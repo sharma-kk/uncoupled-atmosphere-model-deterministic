@@ -18,7 +18,7 @@ def solve_for_v_given_q(q):
 
 def q_from_v(u):
     """calculate vorticity from velocity. q = curl(u)"""
-    msh = u.fucntion_space().mesh()
+    msh = u.function_space().mesh()
     X = FunctionSpace(msh, "CG", 1)
     return interpolate(u[1].dx(0) - u[0].dx(1), X)
 

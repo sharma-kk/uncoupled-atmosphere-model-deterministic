@@ -52,7 +52,7 @@ Observation: I see some ripples in atm. velocity field. Doesn't seem natural. re
 
 normal mesh 64x64, with external forcing
 Dt = 0.02
-Ran for 2000 time steps and saved every 25th in m2.pvd
+Ran for 4000 time steps and saved every 25th in m2.pvd
 results also stored as pvsm file in ./results/m2.pvsm
 FE spaces same as m2.py
 Ro_1 = 10**3
@@ -64,4 +64,34 @@ atm. temp. = constant field
 f_ext = velocity field correponding of Wei's initial condition
 initial vel = 0
 
-Observation: The flow looks promising. Maybe can reduce time step or reduce grid size. results stored as m4.pvsm file and a video ./videos/m4.avi
+Observation: The flow looks promising. Maybe can reduce time step or reduce grid size. 
+results stored as m4.pvsm file and a video ./videos/m4.avi
+
+##############m5.py###############
+Ro_1 = 10**5
+Ro_2 = 10**3
+Re = 10**5
+Pe = 10**2
+The solution diverged at t=5.5. Maybe because Reynolds no. is high !
+Reducing the Dt from 0.02 to 0.01 did not change the outcome. The solution
+still diverged at t = 5.5
+Results saved in ./results/m5.pvsm
+
+##############m6.py###############
+#################
+Part 1:
+Since the solution diverged fro m5.py i used finer grid this time (128x128 Dt = 0.01)
+This time the simulation ran for longer time but ultimatly diverged at t = 11.5.
+Details:
+Ro_1 = 10**5, Ro_2 = 10**3, Re = 10**5, Pe = 10**2
+grid = 128x128, Dt = 0.01
+Videos saved as ./video/128x128_Re_1e5_Ro1_1e5_f_wei_diverged.avi
+#################
+Part 2:
+I observed that i can increase the Dt for 128x128 grid or in general for other grids since 
+this is not a factor for divergence.
+Details:
+Ro_1 = 10**4, Ro_2 = 10**3, Re = 10**4, Pe = 10**2
+grid = 128x128, Dt = 0.02
+I stopped the simulation after some time since i wasn't seeing anything interesting.
+saved the files as ./results/m6.pvd and also in ./results/m6.pvsm
