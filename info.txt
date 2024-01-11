@@ -65,7 +65,7 @@ f_ext = velocity field correponding of Wei's initial condition
 initial vel = 0
 
 Observation: The flow looks promising. Maybe can reduce time step or reduce grid size. 
-results stored as m4.pvsm file and a video ./videos/m4.avi
+              results stored as m4.pvsm file and a video ./videos/m4.avi
 
 ##############m5.py###############
 Ro_1 = 10**5
@@ -95,3 +95,6 @@ Ro_1 = 10**4, Ro_2 = 10**3, Re = 10**4, Pe = 10**2
 grid = 128x128, Dt = 0.02
 I stopped the simulation after some time since i wasn't seeing anything interesting.
 saved the files as ./results/m6.pvd and also in ./results/m6.pvsm
+Observations: the flow still doesn't look as if it has multiple scale processes going on.
+              I need to search for f_ext or maybe ocean temperature which may lead to that.
+
