@@ -98,3 +98,9 @@ saved the files as ./results/m6.pvd and also in ./results/m6.pvsm
 Observations: the flow still doesn't look as if it has multiple scale processes going on.
               I need to search for f_ext or maybe ocean temperature which may lead to that.
 
+##############m7.py###############
+parameters kept same as m4.py with one change. Removed the diffusion term from temperature. 
+Also ran the test for 2000 time steps.
+Observations: 
+The temperature field looks different than m4.py case. 
+Results saved in ./results/m7.pvd and m7.pvsm files.
