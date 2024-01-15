@@ -7,6 +7,8 @@ from firedrake import *
 from utilities import *
 
 N = 64
+h = 1/N
+c = 10
 k = 1 # polynomial degree for vel field
 mesh = UnitSquareMesh(N,N)
 
@@ -56,24 +58,31 @@ u_.assign(0)
 # f.assign(0) 
 f.assign(i_vel)
 
-perp = lambda arg: as_vector((-arg[1], arg[0]))
+outward_normals = CellNormal(mesh)
+# perp = lambda arg: as_vector((-arg[1], arg[0]))
+perp = lambda arg: cross(outward_normals, arg)
+n = FacetNormal(mesh)
+both = lambda u: 2*avg(u)
 
-
-F = ( inner(u-u_,v)
-    - Dt*half*(inner(u_, perp(grad(inner(perp(u_), v)))) + inner(u, perp(grad(inner(perp(u), v)))))
-
-    + Dt*half*(1/Ro_1)*(-(u[1]+u_[1])*v[0] +(u[0]+u_[0])*v[1])
-    + Dt*half*(1/Ro_2)*inner((grad(T)+grad(T_)),v)
-    + Dt *half *(1/Re)*inner((nabla_grad(u)+nabla_grad(u_)), nabla_grad(v))
-    - Dt * inner(f, v) 
-    + (T -T_)*phi + Dt*half*(inner(u_,grad(T_)) + inner(u,grad(T)))*phi
-    - Dt*gamma*half*(T - To + T_ - To)* phi
-    + Dt*half*(1/Pe)*inner((grad(T)+grad(T_)),grad(phi)) )*dx
+F = ( inner(u-u_,v)*dx
+    - Dt*half*(inner(u_, perp(grad(inner(perp(u_), v)))) + inner(u, perp(grad(inner(perp(u), v)))))*dx
+    - Dt*half*div(v)*(0.5*(inner(u_, u_) + inner(u, u)))*dx
+    + Dt*half*(inner(both(perp(n)*inner(v, perp(u_))),both(0.5 * (sign(dot(u_, n)) + 1)*u_)) + inner(both(perp(n)*inner(v, perp(u_))),both(0.5 * (sign(dot(u, n)) + 1)*u)))*dS
+    + Dt*half*(1/Ro_1)*inner(perp(u_) + perp(u), v)*dx # + Dt*half*(1/Ro_1)*(-(u[1]+u_[1])*v[0] +(u[0]+u_[0])*v[1])
+    + Dt*half*(1/Ro_2)*inner((grad(T)+grad(T_)),v)*dx
+    + Dt*half*(1/Re)*(inner(grad(u), grad(v)) + inner(grad(u_), grad(v)) )*dx
+    + Dt*half*(1/Re)*(2*inner(avg(outer(v,n)),avg(grad(u))) + 2*inner(avg(outer(v,n)),avg(grad(u_))))*dS
+    + Dt*half*(1/Re)*(2*inner(avg(outer(u,n)),avg(grad(v))) + 2*inner(avg(outer(u_,n)),avg(grad(v))))*dS
+    + Dt*half*(1/Re)*c*(1/h)*(inner(jump(v),jump(u))+ inner(jump(v),jump(u_)))*dS
+    - Dt * inner(f, v)*dx
+    + (T -T_)*phi + Dt*half*(inner(u_,grad(T_)) + inner(u,grad(T)))*phi*dx
+    - Dt*gamma*half*(T - To + T_ - To)* phi*dx
+    + Dt*half*(1/Pe)*inner((grad(T)+grad(T_)),grad(phi))*dx )
 
 bound_cond = [DirichletBC(Z.sub(0).sub(0), Constant(0.0), (1,2)),
               DirichletBC(Z.sub(0).sub(1), Constant(0.0), (3,4))]
 
-outfile = File("./results/m4.pvd")
+outfile = File("./results/c1.pvd")
 T_.rename("atm_temp")
 u_.rename("atm_vel")
 To.rename("ocean_temp")
