@@ -165,3 +165,7 @@ running the same configuration as m9.py but with compatible FE
 Observations: solution diverged after t = 1.5
 results saved in ./results/c4.pvd
 time taken for 25 time steps: 1.08 minutes
+
+##############m10.py###############
+same as m8.py but with Ro_2 = 10**3
+Observations: solution diverged after t = 6.0
