@@ -20,6 +20,7 @@ u,T = split(uT)
 v,phi = TestFunctions(Z)
 u_ = Function(V_1)
 To = Function(V_2)
+q = Function(V_2)
 
 Dt = 0.02
 half = Constant(0.5)
@@ -54,6 +55,7 @@ gamma = -Constant(1.0)
 u_.assign(0)
 # f.assign(0) 
 f.assign(i_vel)
+q.assign(wei_vort)
 
 F = ( inner(u-u_,v)
     + Dt*half*(inner(dot(u, nabla_grad(u)), v) + inner(dot(u_, nabla_grad(u_)), v))
@@ -72,7 +74,8 @@ outfile = File("./results/m4.pvd")
 T_.rename("atm_temp")
 u_.rename("atm_vel")
 To.rename("ocean_temp")
-outfile.write(u_, T_, To)
+q.rename("atm_vort")
+outfile.write(u_, T_, To, q)
 
 t_start = Dt
 t_end = Dt*4000
@@ -99,7 +102,8 @@ while (round(t,4) <= t_end):
         print("t=", round(t,4))
         T.rename("atm_temp")
         u.rename("atm_vel")
-        outfile.write(u, T, To)
+        q.assign(q_from_v(u))
+        outfile.write(u, T, To, q)
     u_.assign(u)
     T_.assign(T)
 
