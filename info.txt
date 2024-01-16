@@ -169,3 +169,9 @@ time taken for 25 time steps: 1.08 minutes
 ##############m10.py###############
 same as m8.py but with Ro_2 = 10**3
 Observations: solution diverged after t = 6.0
+
+##############m10.py###############
+same as m4.py but with 256x256 grid 
+Dt = 0.02 (same as before)
+printed results after every 50 time steps
+Observations: results look same as m4.py but smoother. I stopped the simulation at t=14.0
