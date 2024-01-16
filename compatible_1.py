@@ -15,6 +15,7 @@ mesh = UnitSquareMesh(N,N)
 V2 = FunctionSpace(mesh, "DG", k-1)
 V1 = FunctionSpace(mesh, "BDM", k)
 V0 = FunctionSpace(mesh, "CG",  k+1)
+V0_out = FunctionSpace(mesh, "CG", 1)
 
 V = V1*V0
 
@@ -59,12 +60,12 @@ u_.assign(0)
 f.assign(i_vel)
 
 outward_normals = CellNormal(mesh)
-# perp = lambda arg: as_vector((-arg[1], arg[0]))
-perp = lambda arg: cross(outward_normals, arg)
+perp = lambda arg: as_vector((-arg[1], arg[0]))
+# perp = lambda arg: cross(outward_normals, arg) # this throws ValueError: Shapes do not match: <Cross id=139838298462128> and <ListTensor id=139838549502912>
 n = FacetNormal(mesh)
 both = lambda u: 2*avg(u)
 
-F = ( inner(u-u_,v)*dx
+F = ( inner(u - u_, v)*dx
     - Dt*half*(inner(u_, perp(grad(inner(perp(u_), v)))) + inner(u, perp(grad(inner(perp(u), v)))))*dx
     - Dt*half*div(v)*(0.5*(inner(u_, u_) + inner(u, u)))*dx
     + Dt*half*(inner(both(perp(n)*inner(v, perp(u_))),both(0.5 * (sign(dot(u_, n)) + 1)*u_)) + inner(both(perp(n)*inner(v, perp(u_))),both(0.5 * (sign(dot(u, n)) + 1)*u)))*dS
@@ -74,19 +75,18 @@ F = ( inner(u-u_,v)*dx
     + Dt*half*(1/Re)*(2*inner(avg(outer(v,n)),avg(grad(u))) + 2*inner(avg(outer(v,n)),avg(grad(u_))))*dS
     + Dt*half*(1/Re)*(2*inner(avg(outer(u,n)),avg(grad(v))) + 2*inner(avg(outer(u_,n)),avg(grad(v))))*dS
     + Dt*half*(1/Re)*c*(1/h)*(inner(jump(v),jump(u))+ inner(jump(v),jump(u_)))*dS
-    - Dt * inner(f, v)*dx
-    + (T -T_)*phi + Dt*half*(inner(u_,grad(T_)) + inner(u,grad(T)))*phi*dx
+    - Dt*inner(f, v)*dx
+    + (T -T_)*phi*dx + Dt*half*(inner(u_,grad(T_)) + inner(u,grad(T)))*phi*dx
     - Dt*gamma*half*(T - To + T_ - To)* phi*dx
     + Dt*half*(1/Pe)*inner((grad(T)+grad(T_)),grad(phi))*dx )
 
-bound_cond = [DirichletBC(Z.sub(0).sub(0), Constant(0.0), (1,2)),
-              DirichletBC(Z.sub(0).sub(1), Constant(0.0), (3,4))]
+bound_cond = [DirichletBC(V.sub(0), Constant((0.0, 0.0)), "on_boundary")] # H-div boundary condition
 
 outfile = File("./results/c1.pvd")
-T_.rename("atm_temp")
+# T_.rename("atm_temp")
 u_.rename("atm_vel")
-To.rename("ocean_temp")
-outfile.write(u_, T_, To)
+# To.rename("ocean_temp")
+outfile.write(u_, project(T_, V0_out, name="atm_temp"), project(To, V0_out, name="ocean_temp"))
 
 t_start = Dt
 t_end = Dt*4000
@@ -111,9 +111,10 @@ while (round(t,4) <= t_end):
             print("Approx. total running time: %.2f minutes:" %total_execution_time)
 
         print("t=", round(t,4))
-        T.rename("atm_temp")
+        # T.rename("atm_temp")
         u.rename("atm_vel")
-        outfile.write(u, T, To)
+        outfile.write(u, project(T, V0_out, name="atm_temp"), project(To, V0_out, name="ocean_temp"))
+        # outfile.write(u, T, To)
     u_.assign(u)
     T_.assign(T)
 

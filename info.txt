@@ -122,5 +122,13 @@ atm. temp. = constant field
 f_ext = velocity field correponding of Wei's initial condition
 initial vel = 0
 
-Observations: 
+Observations: The simulation was running fine. I compared the results with
+m4.py and they seem to match except only the max. velocity values. The flow looks similar.
+I stopped the simulation at t = 6.0.
+The results are stored in ./results/c1.pvd file.
+The running time for 25 time-steps (1 big t_step) is 1.11 minutes which i think is very high.
+The initial temp. for the atmosphere looked weird. Think how to fix that !
+
+#############compatible_2.py########
+
 
