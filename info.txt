@@ -105,3 +105,22 @@ Observations:
 The temperature field looks different than m4.py case. 
 Results saved in ./results/m7.pvd and m7.pvsm files.
 
+#############compatible_1.py########
+I have rewritten the weak formulation so as to implement compatible finite element spaces
+
+normal mesh 64x64, with external forcing
+Dt = 0.02
+Ran for 4000 time steps and saved every 25th in m2.pvd
+results also stored as pvsm file in ./results/c1.pvsm
+FE spaces: u is in BDM_1 and temp. is in CG_2
+Ro_1 = 10**3
+Ro_2 = 10**3
+Re = 10**4
+Pe = 10**2
+temp. of ocean = one bell
+atm. temp. = constant field
+f_ext = velocity field correponding of Wei's initial condition
+initial vel = 0
+
+Observations: 
+

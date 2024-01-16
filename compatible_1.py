@@ -29,7 +29,7 @@ half = Constant(0.5)
 
 x,y = SpatialCoordinate(mesh)
 
-Ro_1 = Constant(10**4)
+Ro_1 = Constant(10**3)
 Ro_2 = Constant(10**3) # Rossby number
 Re = Constant(10**4) # Reynolds number
 Pe = Constant(10**2)
