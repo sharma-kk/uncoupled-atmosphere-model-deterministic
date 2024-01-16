@@ -117,7 +117,7 @@ Ro_1 = 10**3
 Ro_2 = 10**3
 Re = 10**4
 Pe = 10**2
-temp. of ocean = one bell
+temp. of ocean = 1 + bell
 atm. temp. = constant field
 f_ext = velocity field correponding of Wei's initial condition
 initial vel = 0
@@ -130,5 +130,38 @@ The running time for 25 time-steps (1 big t_step) is 1.11 minutes which i think 
 The initial temp. for the atmosphere looked weird. Think how to fix that !
 
 #############compatible_2.py########
+I ran the same conditions as in m5.py where the solution diverged at t =5.5
+With compatible FE spaces it ran a bit longer (t =6.5) before diverging. 
+results also saved as ./results/c2.pvsm 
 
+#############compatible_3.py########
+Ro_1 = 10**5
+Ro_2 = 10**3
+Re = 10**4
+Pe = 10**2
+other conditions same as compatible_2.py
+Observations: the solution diverged at t = 6.5 :(
 
+##############m8.py###############
+Ro_1 = 10**4
+Ro_2 = 10**4
+Re = 10**4
+Pe = 10**4
+gamma = 0 # no coupling to ocean
+f = 0
+initial atm vel = 0
+temperature of atmosphere = 1 + bell
+Observations: the solution diverged after t = 38.0
+results saved in ./results/m8.pvd and as a pvsm file.
+time taken for 25 time steps: 0.09 minutes
+
+##############m9.py###############
+same as m8.py but with Ro_2 = 10**2
+time taken for 25 time steps: 0.11 minutes
+Observations: solution diverged after t = 1.5
+
+#############compatible_4.py########
+running the same configuration as m9.py but with compatible FE
+Observations: solution diverged after t = 1.5
+results saved in ./results/c4.pvd
+time taken for 25 time steps: 1.08 minutes
