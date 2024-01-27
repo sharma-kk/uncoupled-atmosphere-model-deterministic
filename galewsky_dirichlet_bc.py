@@ -39,3 +39,6 @@ outfile = File("./results/galewsky_dirichlet_bc.pvd")
 u.rename("velocity")
 theta.rename("temperature")
 outfile.write(u, theta)
+
+# this doesn't produce expected results because when dirichlet bc are given, there is a conflict between 
+# the function/theta values near the boundaries and hence we get wrong results.

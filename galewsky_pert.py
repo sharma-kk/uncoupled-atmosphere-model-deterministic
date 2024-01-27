@@ -2,7 +2,7 @@ import os
 os.environ["OMP_NUM_THREADS"] = "1"
 # import numpy as np
 from firedrake import *
-# import math
+import math
 
 N = 64
 mesh = UnitSquareMesh(N, N)
@@ -34,9 +34,19 @@ theta = Function(V2)
 nullspace = VectorSpaceBasis(constant=True, comm=COMM_WORLD) # this is required with Neumann bcs
 solve(a == L, theta, nullspace=nullspace)
 
-outfile = File("./results/galewsky.pvd")
-u.rename("velocity")
-theta.rename("temperature")
-outfile.write(u, theta)
+theta_0 = 1.0
+c0 = 0.01 ; c1 = 9 ;  c2=225 ; x_0 = 0.5
+pert = c0*sin(math.pi*y)/(exp((x  - x_0)**2)*exp((y - y_0)**2))
 
-# the above code creates geostrophic balance conditions for theta and vel. We assume constant coriolis parameter. 
+pert_func = interpolate(pert, V2)
+theta_pert = interpolate(theta_0 + theta + pert, V2)
+
+outfile = File("./results/galewsky_pert.pvd")
+u.rename("velocity")
+theta.rename("temp_geostrophic")
+pert_func.rename("pert_func_theta")
+theta_pert.rename("temp_after_pert")
+outfile.write(u, theta, theta_pert, pert_func)
+
+# the above code creates geostrophic balance conditions for theta and vel along with perturbation 
+# which can induce bartropic instability. We assume constant coriolis parameter. 
