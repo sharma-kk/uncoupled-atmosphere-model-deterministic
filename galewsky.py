@@ -4,8 +4,8 @@ os.environ["OMP_NUM_THREADS"] = "1"
 from firedrake import *
 # import math
 
-N = 128
-mesh = PeriodicUnitSquareMesh(N, N, "x")
+N = 64
+mesh = UnitSquareMesh(N, N)
 
 V1 = VectorFunctionSpace(mesh, "CG", 1)
 V2 = FunctionSpace(mesh, "CG", 1)
@@ -31,8 +31,9 @@ a = -inner(grad(theta), grad(phi))*dx
 L = f*phi*dx
 
 theta = Function(V2)
-bc = [DirichletBC(V2, Constant(1.0), (1,2))]
-solve(a == L, theta, bcs = bc)
+# bc = [DirichletBC(V2, Constant(1.0), 'on_boundary')]
+nullspace = VectorSpaceBasis(constant=True, comm=COMM_WORLD)
+solve(a == L, theta, nullspace=nullspace)
 
 outfile = File("./results/galewsky.pvd")
 u.rename("velocity")
